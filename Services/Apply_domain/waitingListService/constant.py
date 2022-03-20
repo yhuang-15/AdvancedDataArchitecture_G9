@@ -1,0 +1,4 @@
+STATUS_PENDING = "Pending"
+STATUS_WAITING = "Waiting"
+STATUS_REMOVED = "Removed"
+
