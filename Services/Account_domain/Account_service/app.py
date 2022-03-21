@@ -15,9 +15,9 @@ def create_account():
     return Account.create(req_data)
 
 
-#@app.route('/deliveries/<d_id>', methods=['GET'])
-#def get_account(d_id):
-#    return Delivery.get(d_id)
+@app.route('/accounts/<a_id>', methods=['GET'])
+def get_account(a_id):
+   return Account.get(a_id)
 
 
 @app.route('/accounts/<a_id>', methods=['PUT'])
@@ -26,9 +26,9 @@ def update_account(a_id):
     return Account.update(a_id, req_data)
 
 
-#@app.route('/deliveries/<d_id>', methods=['DELETE'])
-#def delete_account(d_id):
-#    return Delivery.delete(d_id)
-#
+@app.route('/accounts/<a_id>', methods=['DELETE'])
+def delete_account(a_id):
+    return Account.delete(a_id)
+
 
 app.run(host='0.0.0.0', port=5000)

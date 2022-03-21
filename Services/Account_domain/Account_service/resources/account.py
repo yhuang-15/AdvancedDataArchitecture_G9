@@ -20,39 +20,44 @@ class Account:
         session.close()
         return jsonify({'Account created! Acount ID': account.id}), 200
 
-    #@staticmethod
-    #def get(d_id):
-    #    session = Session()
-    #    # https://docs.sqlalchemy.org/en/14/orm/query.html
-    #    # https://www.tutorialspoint.com/sqlalchemy/sqlalchemy_orm_using_query.htm
-    #    delivery = session.query(DeliveryDAO).filter(DeliveryDAO.id == int(d_id)).first()
-#
-    #    if delivery:
-    #        status_obj = delivery.status
-    #        text_out = {
-    #            "customer_id:": delivery.customer_id,
-    #            "provider_id": delivery.provider_id,
-    #            "package_id": delivery.package_id,
-    #            "order_time": delivery.order_time.isoformat(),
-    #            "delivery_time": delivery.delivery_time.isoformat()
-    #        }
-    #        session.close()
-    #        return jsonify(text_out), 200
-    #    else:
-    #        session.close()
-    #        return jsonify({'message': f'There is no delivery with id {d_id}'}), 404
-#
-    #@staticmethod
-    #def delete(d_id):
-    #    session = Session()
-    #    effected_rows = session.query(DeliveryDAO).filter(DeliveryDAO.id == int(d_id)).delete()
-    #    session.commit()
-    #    session.close()
-    #    if effected_rows == 0:
-    #        return jsonify({'message': f'There is no delivery with id {d_id}'}), 404
-    #    else:
-    #        return jsonify({'message': 'The delivery was removed'}), 200
-    #
+    @staticmethod
+    def get(a_id):
+        session = Session()
+        # https://docs.sqlalchemy.org/en/14/orm/query.html
+        # https://www.tutorialspoint.com/sqlalchemy/sqlalchemy_orm_using_query.htm
+        account = session.query(AccountDAO).filter(AccountDAO.id == int(a_id)).first()
+
+        if account:
+            text_out = {
+                "account_id:": account.account_id,
+                "first_name": account.first_name,
+                "last_name": account.last_name,
+                "phone_number": account.phone_number,
+                "email_address": account.email_address,
+                "down_time": account.down_time.isoformat(),
+                "premium_status": account.premium_status,
+                "preference": account.preference,
+                "in_waiting_list": account.in_waiting_list,
+                "has_contract": account.has_contract,
+                "bank_account": account.bank_account
+            }
+            session.close()
+            return jsonify(text_out), 200
+        else:
+            session.close()
+            return jsonify({'message': f'There is no delivery with id {a_id}'}), 404
+            
+    @staticmethod
+    def delete(a_id):
+         session = Session()
+         effected_rows = session.query(AccountDAO).filter(AccountDAO.id == int(a_id)).delete()
+         session.commit()
+         session.close()
+         if effected_rows == 0:
+             return jsonify({'message': f'There is no delivery with id {a_id}'}), 404
+         else:
+             return jsonify({'message': 'The delivery was removed'}), 200
+     
     @staticmethod
     def update(a_id, body):
         session = Session()
