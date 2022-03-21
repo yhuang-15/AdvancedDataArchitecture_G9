@@ -10,7 +10,7 @@ Base.metadata.create_all(engine)
 
 
 @app.route('/waitingList', methods=['POST'])
-def create_application():
+def create_waitingList():
     req_data = request.get_json()
     return WaitingList.create(req_data)
 
