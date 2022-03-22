@@ -62,8 +62,7 @@ class Account:
     def update(a_id, body):
         session = Session()
 
-        session.query(AccountDAO).filter(AccountDAO.id == a_id).\
-                    update(body)
+        session.query(AccountDAO).filter(AccountDAO.id == a_id).update(body)
 
         session.commit()
         return jsonify({'message': 'The account has been updated'}), 200
