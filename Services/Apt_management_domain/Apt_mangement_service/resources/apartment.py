@@ -35,7 +35,7 @@ class Apartment:
         session = Session()
         apartment = session.query(ApartmentDAO).filter(ApartmentDAO.id == apt_id).first()
 
-        if apartment:
+        if apartment != None:
             status_obj = apartment.status
             text_out = {
                 "size:": apartment.size,
