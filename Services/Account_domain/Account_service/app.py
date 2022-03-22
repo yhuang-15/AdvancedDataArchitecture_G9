@@ -14,6 +14,23 @@ def create_account():
     req_data = request.get_json()
     return Account.create(req_data)
 
+@app.route('/accounts', methods=['GET'])
+def get_all_account():
+   return Account.list_all_accounts()
+
+
+@app.route('/accounts', methods=['PUT'])
+def update_all_account():
+    return Account.error_405()
+
+
+@app.route('/accounts', methods=['DELETE'])
+def delete_all_account():
+    return Account.delete_all()
+
+@app.route('/accounts/<a_id>', methods=['POST'])
+def create_account_with_id(a_id):
+    return Account.error_405()
 
 @app.route('/accounts/<a_id>', methods=['GET'])
 def get_account(a_id):
