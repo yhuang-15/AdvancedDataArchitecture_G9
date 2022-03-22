@@ -36,8 +36,23 @@ class Status:
         return jsonify({'message': 'no method'}), 405
 
     @staticmethod
-    def get_status():
-        return jsonify({'message': 'no method'}), 405
+    def get_status(apt_id):
+         session = Session()
+         apartment = session.query(ApartmentDAO).filter(ApartmentDAO.id == apt_id).first()
+    
+         if apartment:
+             status_obj = apartment.status
+             text_out = {
+                 "status": {
+                     "status": status_obj.status,
+                     "last_update": status_obj.last_update.isoformat(),
+                 }
+             }
+             session.close()
+             return jsonify(text_out), 200
+         else:
+             session.close()
+             return jsonify({'message': f'There is no apartment with id {apt_id}'}), 404
 
     @staticmethod
     def delete_status():

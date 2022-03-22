@@ -55,7 +55,7 @@ def create_apartment_status(apt_id):
 
 @app.route('/apartments/<apt_id>/status', methods=['GET'])
 def get_apartment_status(apt_id):
-    return Status.get_status()
+    return Status.get_status(apt_id)
 
 @app.route('/apartments/<apt_id>/status', methods=['PUT'])
 def update_apartment_status(apt_id):
