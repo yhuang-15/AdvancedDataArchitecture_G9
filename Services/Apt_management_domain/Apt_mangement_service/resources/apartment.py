@@ -91,7 +91,7 @@ class Apartment:
         session = Session()
         apartment = session.query(ApartmentDAO).filter(ApartmentDAO.id == apt_id)
 
-        if apartment:
+        if apartment != None:
             apartment.update({ "size": body['size'], "price": body['price']})
 
         else:
