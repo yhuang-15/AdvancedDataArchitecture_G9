@@ -16,6 +16,8 @@ Virgil Sowirono <br />
 
 ## Introduction
 
+This course is about data architectures which is a framework for managing data. For this assignment specifcally the purpose was to implement services which were identified in assingment 2 where had to  design and document a SOA-based solution for our case study which is apartment renting.
+
 ## Developing
 
 ### Built With
