@@ -13,3 +13,15 @@ class Status:
         waitingList.status.last_update = datetime.datetime.now()
         session.commit()
         return jsonify({'message': 'The waitinglist status was updated'}), 200
+    
+    @staticmethod
+    def post_status():
+        return jsonify({'message': 'no method'}), 405
+
+    @staticmethod
+    def get_status():
+        return jsonify({'message': 'no method'}), 405
+
+    @staticmethod
+    def delete_status():
+        return jsonify({'message': 'no method'}), 405

@@ -130,4 +130,42 @@ class WaitingList:
 
         session.close()
         return json.dumps(end_list)
+    
+    
+    @staticmethod
+    def update_wl(w_id, body):
+        session = Session()
+        waitinglist = session.query(WaitingListDAO).filter(WaitingListDAO.id == w_id)
+    
+        if waitinglist:
+            waitinglist.update({ "priority_status": body['priority_status']})
+    
+        else:
+            return jsonify({'message': f'There is no waitinglist entry with id {w_id}'}), 404
+
+        session.commit()
+        session.refresh(waitinglist.first())
+        session.close()
+        return jsonify({'message': f'The priority status was updated for {w_id}'}), 200
+
+    @staticmethod
+    def delete_all():
+        sql = 'delete from waitinglist'
+        session = Session()
+        session.execute(sql)
+        session.commit()
+        session.close()
+    
+        return jsonify({'message': 'deleted entire waitinglist'}), 200
+    
+    
+    @staticmethod
+    def bulk_update():
+        return jsonify({'message': 'update waitinglist entries one by one'}), 405
+
+    @staticmethod
+    def post_id():
+        return jsonify({'message': 'no method'}), 405
+
+
 
