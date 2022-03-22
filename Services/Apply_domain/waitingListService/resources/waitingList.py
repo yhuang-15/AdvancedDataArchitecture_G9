@@ -135,16 +135,16 @@ class WaitingList:
     @staticmethod
     def update_wl(w_id, body):
         session = Session()
-        waitinglist = session.query(WaitingListDAO).filter(WaitingListDAO.id == w_id)
+        waitingList = session.query(WaitingListDAO).filter(WaitingListDAO.id == w_id).first()
     
-        if waitinglist:
-            waitinglist.update({ "priority_status": body['priority_status']})
+        if waitingList != None:
+            waitingList.update({ "priority_status": body['priority_status']})
     
         else:
             return jsonify({'message': f'There is no waitinglist entry with id {w_id}'}), 404
 
         session.commit()
-        session.refresh(waitinglist.first())
+        session.refresh(waitingList.first())
         session.close()
         return jsonify({'message': f'The priority status was updated for {w_id}'}), 200
 
