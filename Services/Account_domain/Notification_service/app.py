@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.config["DEBUG"] = True
 
 
-@app.route('/notify', methods=['GET'])
+@app.route('/notify', methods=['POST'])
 def send_email():
     notify_msg = request.get_json()
 
