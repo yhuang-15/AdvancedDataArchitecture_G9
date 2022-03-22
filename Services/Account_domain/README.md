@@ -1,5 +1,7 @@
 This sub-domain contains two services:
+
     - account service handles the operations on the user accounts
+    
     - notification service handles sending the notification to users via email when there's any changes to their accounts.
 
 |      account_service    |          POST          |       GET       |       PUT      |      DELETE     |
