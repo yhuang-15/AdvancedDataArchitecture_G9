@@ -29,7 +29,7 @@ class WaitingList:
         # https://www.tutorialspoint.com/sqlalchemy/sqlalchemy_orm_using_query.htm
         waitingList = session.query(WaitingListDAO).filter(WaitingListDAO.id == w_id).first()
 
-        if waitingList != 0:
+        if waitingList != None:
             if waitingList.priority_status == 'emergency':
                 status_obj = waitingList.status
                 text_out = {
