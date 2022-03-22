@@ -1,4 +1,4 @@
-First, you have to do a few configurations at GCP and SendGrid – see below
+First, you have to do a few configurations at GCP and SendGrid ï¿½ see below
 
 https://stackoverflow.com/questions/62282170/whats-the-best-way-to-send-an-e-mail-via-python-google-cloud-function/62285013#62285013Links to an external site.
 
