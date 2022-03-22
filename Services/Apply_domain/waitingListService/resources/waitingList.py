@@ -126,7 +126,7 @@ class WaitingList:
                     }
                 } 
             end_list.append(text_out)
-        end_list = sorted(end_list, key=lambda d: int(d['waiting_time'][:4]), reverse=True) 
+        end_list = sorted(end_list, key=lambda d: int(d['waiting_time'].split()[0]), reverse=True) 
 
         session.close()
         return json.dumps(end_list)
