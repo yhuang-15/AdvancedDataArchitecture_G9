@@ -161,7 +161,7 @@ class WaitingList:
     
     @staticmethod
     def bulk_update():
-        return jsonify({'message': 'update waitinglist entries one by one'}), 405
+        return jsonify({'message': 'Bulk updating, not available. Update waitinglist entries one by one.'}), 405
 
     @staticmethod
     def post_id():
