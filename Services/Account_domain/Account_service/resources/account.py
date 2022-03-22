@@ -62,15 +62,15 @@ class Account:
     def update(a_id, body):
         session = Session()
 
-        try:
-            account = session.query(AccountDAO).filter(AccountDAO.id == a_id)
+        accounts = session.query(AccountDAO).filter(AccountDAO.id == a_id)
+        account = accounts.all()
 
-            account.update(body)
+        if len(account) != 0:
+            accounts.update(body)
             session.commit()
             session.close()
-            return jsonify({'message': 'The account has been updated',
-                            'account_type': str(type(account))}), 200
-        except:
+            return jsonify({'message': 'The account has been updated'}), 200
+        else:
             session.close()
             return jsonify({'message': f'No account with id {a_id}'}), 404
         
