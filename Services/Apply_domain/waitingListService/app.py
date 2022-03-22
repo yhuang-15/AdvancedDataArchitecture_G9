@@ -52,13 +52,13 @@ def delete_waiting_list_id(w_id):
     return WaitingList.delete(w_id)
 
 
-@app.route('/apartments/<w_id>/status', methods=['POST'])
+@app.route('/waitingList/<w_id>/status', methods=['POST'])
 def create_waiting_list_entry_status(w_id):
     return Status.post_status()
 
-@app.route('/apartments/<w_id>/status', methods=['GET'])
+@app.route('/waitingList/<w_id>/status', methods=['GET'])
 def get_waiting_list_status(w_id):
-    return Status.get_status()
+    return Status.get_status(w_id)
 
 @app.route('/waitingList/<w_id>/status', methods=['PUT'])
 def update_waiting_list_entry(w_id):
