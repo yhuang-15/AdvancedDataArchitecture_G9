@@ -87,7 +87,7 @@ class Application:
         session = Session()
         application = session.query(ApplicationDAO).filter(ApplicationDAO.application_id == a_id)
 
-        if application:
+        if application.first() != None:
             application.update({"user_id": body['user_id'],
                                 "apartment_id": body['apartment_id']})
 
