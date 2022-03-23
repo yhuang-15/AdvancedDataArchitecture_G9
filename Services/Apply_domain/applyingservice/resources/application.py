@@ -2,7 +2,6 @@ from datetime import datetime
 
 from flask import jsonify
 
-from constant import STATUS_CREATED
 from daos.application_dao import ApplicationDAO
 from daos.status_dao import StatusDAO
 from db import Session
@@ -18,7 +17,7 @@ class Application:
     def create(body):
         session = Session()
         application = ApplicationDAO(body['application_id'], body['user_id'], body['apartment_id'], datetime.now(),
-                               StatusDAO(STATUS_CREATED, datetime.now()))
+                               StatusDAO("STATUS_CREATED", datetime.now()))
         session.add(application)
         session.commit()
         session.refresh(application)
@@ -109,3 +108,11 @@ class Application:
         session.close()
 
         return jsonify({'message': 'deleted all applications'}), 200
+
+    @staticmethod
+    def bulk_update():
+        return jsonify({'message': 'Bulk updating, not available. Update applications one by one.'}), 405
+
+    @staticmethod
+    def post_id():
+        return jsonify({'message': 'no method'}), 405
