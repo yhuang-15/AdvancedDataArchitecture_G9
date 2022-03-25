@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  account_service:
+    build:
+      context: ./Account_domain/Account_service
+    ports:
+      - "5000:5000"
+  apply_service:
+    build:
+      context: ./Apply_domain/applyingservice
+    ports:
+      - "5001:5000"
+  waitinglist_service:
+    build:
+      context: ./Apply_domain/waitingListService
+    ports:
+      - "5002:5000"
+  apt_management_service:
+    build:
+      context: ./Apt_management_domain/Apt_management_domain
+    ports:
+      - "5003:5000"
+  
