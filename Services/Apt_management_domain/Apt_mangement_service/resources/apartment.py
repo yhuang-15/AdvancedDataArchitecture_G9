@@ -89,9 +89,9 @@ class Apartment:
     @staticmethod
     def update_apt(apt_id, body):
         session = Session()
-        apartment = session.query(ApartmentDAO).filter(ApartmentDAO.id == apt_id).first()
+        apartment = session.query(ApartmentDAO).filter(ApartmentDAO.id == apt_id)
 
-        if apartment != None:
+        if apartment.first() != None:
             apartment.update({ "size": body['size'], "price": body['price']})
 
         else:
