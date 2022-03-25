@@ -40,3 +40,12 @@ class Status:
         else:
             session.close()
             return jsonify({'message': f'There is no application with id {a_id}'}), 404
+
+    @staticmethod
+    def post_status():
+        return jsonify({'message': 'no method'}), 405
+
+
+    @staticmethod
+    def delete_status():
+        return jsonify({'message': 'no method'}), 405

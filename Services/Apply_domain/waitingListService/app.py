@@ -31,7 +31,7 @@ def drop_waiting_list():
     return WaitingList.delete_all()
 
 
-@app.route('/apartments/<w_id>', methods=['POST'])
+@app.route('/waitingList/<w_id>', methods=['POST'])
 def create_waiting_list_id(w_id):
     return WaitingList.post_id()
 
