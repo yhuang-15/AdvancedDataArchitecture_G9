@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from sqlalchemy import Column, String, Integer, TIMESTAMP, DateTime
 
 from db import Base
