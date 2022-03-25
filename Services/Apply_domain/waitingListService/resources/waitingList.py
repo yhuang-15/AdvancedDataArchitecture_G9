@@ -137,11 +137,7 @@ class WaitingList:
         session = Session()
         waitingList = session.query(WaitingListDAO).filter(WaitingListDAO.id == w_id)
     
-<<<<<<< HEAD
-        if waitingList != None:
-=======
         if waitingList.first() != None:
->>>>>>> 0489f544bab9f62565d48ffdc3d01b9a18bd0e3c
             waitingList.update({ "priority_status": body['priority_status']})
     
         else:
