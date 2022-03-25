@@ -17,7 +17,7 @@ services:
       - "5002:5000"
   apt_management_service:
     build:
-      context: ./Apt_management_domain/Apt_management_domain
+      context: ./Apt_management_domain/Apt_mangement_service
     ports:
       - "5003:5000"
   
