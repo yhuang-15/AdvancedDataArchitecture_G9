@@ -1,3 +1,5 @@
 Assignment_3:
 	1. API Gateway with auth key to call google cloud function
 	2. GCF use the auth key to execute workflow and return the result
+
+gcloud auth application-default print-access-token
