@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  api_gatway:
+    image: devopsfaith/krakend:2.0.0
+    container_name: api_gatway_ct
+    volumes:
+      - ./krakend:/etc/krakend/
+    depends_on:
+      - account_service
+      - apply_service
+      - waitinglist_service
+      - apt_management_service
+    ports:
+      - "8080:8081"
+  account_service:
+    build:
+      context: ./../Services/Account_domain/Account_service
+    ports:
+      - "5000:5000"
+  apply_service:
+    build:
+      context: ./../Services/Apply_domain/applyingservice
+    ports:
+      - "5001:5000"
+  waitinglist_service:
+    build:
+      context: ./../Services/Apply_domain/waitingListService
+    ports:
+      - "5002:5000"
+  apt_management_service:
+    build:
+      context: ./../Services/Apt_management_domain/Apt_mangement_service
+    ports:
+      - "5003:5000"
+  
