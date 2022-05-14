@@ -20,9 +20,9 @@ To get started you can clone our GitHub project to your own desired repository.
 git clone https://github.com/yhuang-15/AdvancedDataArchitecture_G9.git
 ```
 
-To test the workflow, one has to:
-    1. deploy the workflow on some workflow engine (e.g., Google Workflow)
-    2. deploy all the services that would be called by the workflow
+To test the workflow, one has to: <br />
+    1. deploy the workflow on some workflow engine (e.g., Google Workflow) <br />
+    2. deploy all the services that would be called by the workflow <br />
 
 ## Introduction
 
