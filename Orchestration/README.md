@@ -1,6 +1,7 @@
-# JM0180-M-6 Advanced Data Architecture - Assignment 1 & 3
+# JM0180-M-6 Advanced Data Architecture - Assignment 3 
+> Orchestration of Microservices 
 
-GitHub Project page of group 9 for assignments of the course Advanced Data Architecture
+GitHub Project page of group 9 for assignment 1 of the course Advanced Data Architecture
 <br />
 <br />
 Names: <br />
@@ -10,6 +11,18 @@ Kit Chan <br />
 Yikang Huang <br />
 Rita Matuz <br />
 Virgil Sowirono <br />
+
+### Setting up Dev
+
+To get started you can clone our GitHub project to your own desired repository.
+
+```shell
+git clone https://github.com/yhuang-15/AdvancedDataArchitecture_G9.git
+```
+
+To test the workflow, one has to:
+    1. deploy the workflow on some workflow engine (e.g., Google Workflow)
+    2. deploy all the services that would be called by the workflow
 
 ## Introduction
 
@@ -27,14 +40,6 @@ An API client is also necessary for testing purposes, one example for a client i
 https://insomnia.rest/
 
 A local device is recommended because the Google Cloud Platform is not free, so in order to be efficient and cost-saving. We recommend to use a local machine for the API client, inspecting or modifying the code.
-
-### Setting up Dev
-
-To get started you can clone our GitHub project to your own desired repository.
-
-```shell
-git clone https://github.com/yhuang-15/AdvancedDataArchitecture_G9.git
-```
 
 ## Style guide
 
