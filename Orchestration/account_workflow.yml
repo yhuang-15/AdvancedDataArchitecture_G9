@@ -27,3 +27,18 @@ notifyUserSubprocess:
         next: returnOutput
     - returnOutput:
         return: ${notifyRes}
+
+return_account_info_subprocess:
+  params: [args]
+  steps:
+    - GetAccIDURL:
+        assign:
+          - GetAccURL: ${"http://ip:5000/account/" + args.a_id}
+    -Checkaccount:
+      call: http.get
+      args:
+        url: ${GetAccURL}
+      results: GetAccRes
+      next: return_acc_info
+    -return_acc_info:
+      return: ${GetAccRes}
