@@ -18,7 +18,7 @@
           ],
           "disable_host_sanitize": true,
           "allow": [
-            "message"
+            "message - might need to be change to the result of the main workflow"
           ]
         }
       ]
