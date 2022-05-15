@@ -3,3 +3,9 @@ Assignment_3:
 	2. GCF use the auth key to execute workflow and return the result
 
 gcloud auth application-default print-access-token
+
+# TODO:
+# CHANGE:
+	API Gateway input 
+	API Gateway output 
+	GCF input
