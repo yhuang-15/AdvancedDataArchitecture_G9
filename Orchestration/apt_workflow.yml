@@ -1,102 +1,23 @@
-# Order Approval Process
+# needs a json with {"aptID": "1"} in it
+
 main:
   params: [args]
   steps:
-    - initGetInvURLVar:
+    - initGetAptIDVar:
         assign:
-          - GetInvURL: ${"http://34.71.76.40:5000/products/" + args.pName}
-    - checkInventory:
-        try:
-          call: http.get
-          args:
-            url: ${GetInvURL}
-          result: GetInventoryRes
-        except:
-          as: e
-          steps:
-            - known_errors:
-                switch:
-                  - condition: ${not("HttpError" in e.tags)}
-                    return: "Connection problem."
-                  - condition: ${e.code == 404}
-                    next: callInventoryReFillSubProcess
-                  - condition: ${e.code == 403}
-                    return: "Authentication error."
-            - unhandled_exception:
-                raise: ${e}
-        next: conditionalOnInventory
-    - callInventoryReFillSubProcess:
-        call: inventory_refill_subprocess
-        args:
-          pName: ${args.pName}
-          rQuantity: ${args.quantity}
-        result: OrderFromSupplierRes
-        next: reCheckInventory
-    - reCheckInventory:
+          - GetAptURL: ${"http://34.67.244.244:5003/apartments/" + args.aptID}
+    - checkApt:
         call: http.get
         args:
-          url: ${GetInvURL}
-        result: GetInventoryRes
-    - conditionalOnInventory:
+          url: ${GetAptURL}
+        result: GetAptDetailsRes
+    - conditionalOnAvailability:
         switch:
-          - condition: ${args.quantity >  GetInventoryRes.body.quantity}
+          - condition: ${GetAptDetailsRes.body.status.status == "occupied"}
             steps:
-              - rejectOrder:
-                  return: ${"Sorry, we cannot meet your order. The available quantity for the product " + args.pName + " is " +  string(GetInventoryRes.body.quantity)}
-        next: acceptOrder
-    - acceptOrder:
-        call: accept_order_subprocess
-        args:
-          pName: ${args.pName}
-          rQuantity: ${args.quantity}
-        result: output
-    - return_message:
-        return: ${output}
-
-inventory_refill_subprocess:
-  params: [pName, rQuantity]
-  steps:
-    - orderFromSupplier:
-        call: http.post
-        args:
-          url: http://34.71.76.40:5003/supplier1/orders/
-          body:
-            item: ${pName}
-            quantity: ${rQuantity}
-        result: OrderFromSupplierRes
-    - udpateInventory:
-        call: http.post
-        args:
-          url: http://34.71.76.40:5000/products/
-          body:
-            name: ${OrderFromSupplierRes.body.item}
-            quantity: ${OrderFromSupplierRes.body.quantity}
-        result: CreateOrderRes
-    - return_inventory_refill_message:
-        return: ${OrderFromSupplierRes}
-
-accept_order_subprocess:
-  params: [pName, rQuantity]
-  steps:
-    - initUpdateInvURLVar:
-        assign:
-          - UpdateInvURL: ${"http://34.71.76.40:5000/products/" + pName +"/quantity"}
-    - updateInventory:
-        call: http.request
-        args:
-          url: ${UpdateInvURL}
-          method: PUT
-          query:
-            value: ${rQuantity}
-        result: UpdateInventoryRes
-    - createOrder:
-        call: http.post
-        args:
-          url: http://34.71.76.40:5001/orders/
-          body:
-            product_type: ${pName}
-            quantity: ${rQuantity}
-            unit_price: 444.50
-        result: CreateOrderRes
-    - return_order_complete_message:
-        return: ${"An Order was accepted with id " + CreateOrderRes.body.id + " New inv is " + string(UpdateInventoryRes.body.quantity)}
+              - rejectApplication:
+                  return: ${"Sorry, Apartment is unavailable."}
+        next: acceptApplication
+    - acceptApplication:
+    # here you'll call the next process in the bpmn
+        return: ${"Yaaaaaay"}

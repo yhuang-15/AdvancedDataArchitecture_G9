@@ -1,3 +1,63 @@
+############################################################
+# callNotifyAccountSub:
+############ - input (inputs: ${args}):
+#{
+#  "message": "GCP called workflow",
+#  "method": 1,
+#  "subject": "Test",
+#  "to": "y.huang_15@tilburguniversity.edu"
+#}
+############ - Output:
+#{
+#  "body": {
+#    "message": "Email sent to y.huang_15@tilburguniversity.edu"
+#  },
+#  "code": 200,
+#  "headers": {
+#    "Alt-Svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"",
+#    "Cache-Control": "private",
+#    "Content-Length": "61",
+#    "Content-Type": "application/json",
+#    "Date": "Sun, 15 May 2022 11:38:55 GMT",
+#    "Function-Execution-Id": "pescugyb6l4n",
+#    "Server": "Google Frontend",
+#    "X-Cloud-Trace-Context": "d8b5c1bcc8c61fc208ede739a33eb1d1;o=1"
+#  }
+#}
+############################################################
+############################################################
+# callGetAccountSub:
+############ - input (args: ${args}):
+#{
+#  "a_id": 1,
+#  "method": 0
+#}
+############ - Output:
+#{
+#  "body": {
+#    "a_id": 1,
+#    "account_id:": "pro4345",
+#    "bank_account": "32836478235472684",
+#    "down_time": "2021-06-29T08:15:27.243860",
+#    "email_address": "email_address",
+#    "first_name": "Steven",
+#    "has_contract": false,
+#    "in_waiting_list": false,
+#    "last_name": "Huang",
+#    "phone_number": "214678124",
+#    "preference": "Big house",
+#    "premium_status": 1
+#  },
+#  "code": 200,
+#  "headers": {
+#    "Content-Length": "361",
+#    "Content-Type": "application/json",
+#    "Date": "Sun, 15 May 2022 11:46:32 GMT",
+#    "Server": "Werkzeug/2.1.2 Python/3.7.13"
+#  }
+#}
+############################################################
+
 main:
   params: [args]
   steps:
