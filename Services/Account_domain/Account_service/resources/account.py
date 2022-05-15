@@ -29,6 +29,7 @@ class Account:
 
         if account:
             text_out = {
+                "a_id": account.id,
                 "account_id:": account.account_id,
                 "first_name": account.first_name,
                 "last_name": account.last_name,
@@ -103,7 +104,7 @@ class Account:
             if len(all_accounts) == 1:
                 text_out["Next account id"] = 'only 1 account available'
             else:
-                text_out["Next account id"] = all_accounts[1].id
+                text_out["Next accounts id"] = [account.id for account in all_accounts]
             return jsonify(text_out), 200
 
     @staticmethod
