@@ -1,14 +1,29 @@
 main:
   params: [args]
   steps:
+    - pickAPIcall:
+        switch:
+          - condition: ${args.method == 0}
+            next: callGetAccountSub
+          - condition: ${args.method == 1}
+            next: callNotifyAccountSub
+        next: returnError  
+    - callGetAccountSub:
+        call: getUserInfoSubprocess
+        args:
+          args: ${args}
+        result: Res
+        next: returnOutput
     - callNotifyAccountSub:
         call: notifyUserSubprocess
         args:
           inputs: ${args}
-        result: notifyRes
+        result: Res
         next: returnOutput
     - returnOutput:
-        return: ${notifyRes}
+        return: ${Res}
+    - returnError: 
+        return: "Invalid Operation"
 
 notifyUserSubprocess:
   params: [inputs]
@@ -28,17 +43,16 @@ notifyUserSubprocess:
     - returnOutput:
         return: ${notifyRes}
 
-main:
+getUserInfoSubprocess:
   params: [args]
   steps:
     - GetAccIDURL:
         assign:
-          - GetAccURL: ${"http://ip:5000/account/" + args.a_id}
+          - GetAccURL: ${"http://35.224.127.81:5000/accounts/" + string(args.a_id)}
     - Checkaccount:
-      call: http.get
-      args:
-        url: ${GetAccURL}
-      results: GetAccRes
-      next: return_acc_info
+        call: http.get
+        args:
+          url: ${GetAccURL}
+        result: GetAccRes
     - return_acc_info:
-      return: ${GetAccRes}
+        return: ${GetAccRes}
