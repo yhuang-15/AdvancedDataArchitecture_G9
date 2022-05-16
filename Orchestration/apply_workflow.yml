@@ -1,45 +1,161 @@
-# needs a json with {"applyID": "50"} in it
+# input {"a_id":"1","applyID":"50","aptID":"1"}
 
 main:
   params: [args]
   steps:
+    - pickAPIcall:
+        switch:
+          - condition: ${args.a_id != "0"}
+            next: callGetApplicantInfo
+        next: returnError  
+    - callGetApplicantInfo:
+        call: getApplicantInfo
+        args:
+          args: ${args}
+        result: Res
+        next: callGetApartmentInfo
+    - callGetApartmentInfo:
+        call: getApartmentInfo
+        args:
+          args: ${args}
+        result: Res
+        next: conditionalOnAvailability
+    - conditionalOnAvailability:
+        switch:
+          - condition: ${Res.body.status.status == "occupied"}
+            steps:
+              - rejectApplication:
+                  next: returnOutput
+        next: callGetWaitingListInfo
+    - callGetWaitingListInfo:
+        call: getWaitingListInfo
+        args:
+          args: ${args}
+        result: Res
+        next: conditionalOnWaitingList
+    - conditionalOnWaitingList:
+        switch:
+          - condition: ${json.decode(Res.body)[0].application_id != args.applyID}
+            steps:
+              - rejectWaitingList:
+                  next: returnOutput
+        next: callGetUserInfoSubprocess
+    - callGetUserInfoSubprocess:
+        call: getUserInfoSubprocess
+        args:
+          args: ${args}
+        result: Res
+        next: conditionalOnInfo
+    - conditionalOnInfo:
+        switch:
+          - condition: ${Res.body.has_contract == false}
+            steps:
+              - rejectInfo:
+                  next: returnOutput
+        next: callAcceptApplication
+    - callAcceptApplication:
+        call: acceptApplication
+        args:
+          args: ${args}
+        result: Res
+        next: returnOutput
+    - returnOutput:
+        return: ${Res}
+    - returnError: 
+        return: "Invalid Operation"
+
+getApplicantInfo:
+    params: [args]
+    steps:
     - initGetApplyIDVar:
         assign:
-          - GetApplyURL: ${"http://34.79.160.103:5001/applications/" + args.applyID}
+          - GetApplyURL: ${"http://146.148.10.129:5001/applications/" + args.applyID}
     - checkApply:
         call: http.get
         args:
           url: ${GetApplyURL}
         result: GetApplyDetailsRes
+    - return_acc_info:
+        return: ${GetApplyDetailsRes}
+
+getApartmentInfo:
+    params: [args]
+    steps:
     - initGetAptIDVar:
         assign:
-          - GetAptURL: ${"http://34.79.160.103:5003/apartments/" + GetApplyDetailsRes.body.apartment_id}
+          - GetAptURL: ${"http://146.148.10.129:5003/apartments/" + args.aptID}
     - checkApt:
         call: http.get
         args:
           url: ${GetAptURL}
         result: GetAptDetailsRes
-    - conditionalOnAvailability:
-        switch:
-          - condition: ${GetAptDetailsRes.body.status.status == "occupied"}
-            steps:
-              - rejectApplication:
-                  return: ${"Sorry, Apartment is unavailable."}
-        next: initGetWaitingListVar
+    - return_acc_info:
+        return: ${GetAptDetailsRes}
+
+getWaitingListInfo:
+    params: [args]
+    steps:
     - initGetWaitingListVar:
         assign:
-          - GetWaitingListURL: ${"http://34.79.160.103:5002/waitingList"}
+          - GetWaitingListURL: ${"http://146.148.10.129:5002/waitingList"}
     - checkWaitingList:
         call: http.get
         args:
           url: ${GetWaitingListURL}
         result: GetWaitingListRes
-    - conditionalOnWaitingList:
-        switch:
-          - condition: ${json.decode(GetWaitingListRes.body)[0].application_id != args.applyID}
-            steps:
-              - rejectWaitingList:
-                  return: ${"Sorry, not first on waitinglist."}
-        next: acceptWaitingList
-    - acceptWaitingList:
-        return: ${"The apartment is yours!"}
+    -  return_acc_info:
+        return: ${GetWaitingListRes}
+
+notifyUserSubprocess:
+  params: [inputs]
+  steps:
+    - notifyAccount:
+        call: http.request
+        args:
+          url: https://us-central1-jads-ada-2022-342407.cloudfunctions.net/auto_notifiy
+          method: POST
+          body:
+            from: steven0201k@gmail.com
+            to: ${inputs.to}
+            subject: ${inputs.subject}
+            message: ${inputs.message}
+        result: notifyRes
+        next: returnOutput
+    - returnOutput:
+        return: ${notifyRes}
+
+getUserInfoSubprocess:
+  params: [args]
+  steps:
+    - GetAccIDURL:
+        assign:
+          - GetAccURL: ${"http://146.148.10.129:5000/accounts/" + string(args.a_id)}
+    - Checkaccount:
+        call: http.get
+        args:
+          url: ${GetAccURL}
+        result: GetAccRes
+    - return_acc_info:
+        return: ${GetAccRes}
+
+acceptApplication:
+    params: [args]
+    steps:
+    - initGetUpdateIDVar:
+        assign:
+          - GetApplyURL: ${"http://146.148.10.129:5001/applications/" + args.applyID + "/status?status=STATUS_ACCEPTED"}
+    - updateApplication:
+        call: http.request
+        args:
+          url: ${GetApplyURL}
+          method: PUT
+    - initGetApplyIDVar:
+        assign:
+          - GetApplyURL: ${"http://146.148.10.129:5001/applications/" + args.applyID}
+    - checkApply:
+        call: http.get
+        args:
+          url: ${GetApplyURL}
+        result: GetApplyDetailsRes
+    - return_acc_info:
+        return: ${GetApplyDetailsRes}
