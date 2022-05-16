@@ -3,11 +3,6 @@
 main:
   params: [args]
   steps:
-    - pickAPIcall:
-        switch:
-          - condition: ${args.a_id != "0"}
-            next: callGetApplicantInfo
-        next: returnError  
     - callGetApplicantInfo:
         call: getApplicantInfo
         args:
@@ -25,7 +20,7 @@ main:
           - condition: ${Res.body.status.status == "occupied"}
             steps:
               - rejectApplication:
-                  next: returnOutput
+                  next: returnOutput 
         next: callGetWaitingListInfo
     - callGetWaitingListInfo:
         call: getWaitingListInfo
@@ -39,9 +34,9 @@ main:
             steps:
               - rejectWaitingList:
                   next: returnOutput
-        next: callGetUserInfoSubprocess
-    - callGetUserInfoSubprocess:
-        call: getUserInfoSubprocess
+        next: callMainAcc
+    - callMainAcc:
+        call: mainAcc
         args:
           args: ${args}
         result: Res
@@ -61,8 +56,6 @@ main:
         next: returnOutput
     - returnOutput:
         return: ${Res}
-    - returnError: 
-        return: "Invalid Operation"
 
 getApplicantInfo:
     params: [args]
@@ -106,6 +99,33 @@ getWaitingListInfo:
     -  return_acc_info:
         return: ${GetWaitingListRes}
 
+mainAcc:
+  params: [args]
+  steps:
+    - pickAPIcall:
+        switch:
+          - condition: ${args.method == 0}
+            next: callGetAccountSub
+          - condition: ${args.method == 1}
+            next: callNotifyAccountSub
+        next: returnError  
+    - callGetAccountSub:
+        call: getUserInfoSubprocess
+        args:
+          args: ${args}
+        result: Res
+        next: returnOutput
+    - callNotifyAccountSub:
+        call: notifyUserSubprocess
+        args:
+          inputs: ${args}
+        result: Res
+        next: returnOutput
+    - returnOutput:
+        return: ${Res}
+    - returnError: 
+        return: "Invalid Operation"
+
 notifyUserSubprocess:
   params: [inputs]
   steps:
@@ -129,7 +149,7 @@ getUserInfoSubprocess:
   steps:
     - GetAccIDURL:
         assign:
-          - GetAccURL: ${"http://146.148.10.129:5000/accounts/" + string(args.a_id)}
+          - GetAccURL: ${"http://34.79.160.103:5000/accounts/" + string(args.a_id)}
     - Checkaccount:
         call: http.get
         args:
@@ -157,5 +177,11 @@ acceptApplication:
         args:
           url: ${GetApplyURL}
         result: GetApplyDetailsRes
+    - notify:
+        call: mainAcc
+        args:
+          args: ${args}
+        result: Res
     - return_acc_info:
         return: ${GetApplyDetailsRes}
+    
