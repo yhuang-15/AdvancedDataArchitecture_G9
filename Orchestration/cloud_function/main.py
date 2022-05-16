@@ -14,9 +14,7 @@ def execute_workflow_get_result(request):
     # arguments needed for executing the workflow
     # no arguments needed: '' - empty string
     # could also get from request body: inputs['payload']
-    payload_get = "{\"argument\": \"{\\\"to\\\":\\\"y.huang_15@tilburguniversity.edu\\\", \
-                                 \\\"subject\\\":\\\"Test\\\", \
-                                 \\\"message\\\":\\\"GCP called workflow\\\"}\"}"
+    payload_get = '{\"argument\": \"{\\\"' + 'a_id' + '\\\":\\' + str(inputs['a_id']) + '\\, \\\"' + 'applyID' + '\\\":\\\"' + inputs['applyID'] + '\\\", \\\"' + 'aptID' + '\\\":\\\"' + inputs['aptID'] + '\\\"}\"}' 
 
     headers = {
     'Content-Type': "application/json",
