@@ -16,7 +16,6 @@ def create_apartment():
 
 @app.route('/apartments', methods=['GET'])
 def list_apartments():
-    req_data = request.get_json()
     return Apartment.list()
 
 @app.route('/apartments', methods=['PUT'])

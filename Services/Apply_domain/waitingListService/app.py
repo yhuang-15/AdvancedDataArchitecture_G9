@@ -17,7 +17,6 @@ def create_waiting_list_entry():
 
 @app.route('/waitingList', methods=['GET'])
 def list_waiting_list():
-    req_data = request.get_json()
     return WaitingList.list()
 
 @app.route('/waitingList', methods=['PUT'])
