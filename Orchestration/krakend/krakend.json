@@ -10,6 +10,13 @@
       "method": "POST",
       "output_encoding": "json",
       "timeout": "200000ms",
+      "extra_config": {
+        "qos/ratelimit/router": {
+          "maxRate": 3,
+          "clientMaxRate": 0,
+          "strategy": "ip"
+        }
+      },
       "backend": [
         {
           "url_pattern": "/execute_workflow_get_result",
@@ -18,7 +25,11 @@
           "host": [
             "https://us-central1-jads-de-2021.cloudfunctions.net/"
           ],
-          "disable_host_sanitize": true
+          "disable_host_sanitize": true,
+          "allow": [
+            "result",
+            "error"
+          ]
         }
       ]
     }
