@@ -8,4 +8,4 @@ gcloud auth application-default print-access-token
 # CHANGE:
 	API Gateway input 
 	API Gateway output 
-	GCF input
+	GCF input 
