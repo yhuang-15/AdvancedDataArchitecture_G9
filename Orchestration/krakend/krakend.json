@@ -3,11 +3,13 @@
   "output_encoding": "json",
   "name": "RentalAgencyAPI",
   "port": 8081,
+  "timeout": "3000ms",
   "endpoints": [
     {
       "endpoint": "/apply",
       "method": "POST",
       "output_encoding": "json",
+      "timeout": "200000ms",
       "backend": [
         {
           "url_pattern": "/execute_workflow_get_result",

@@ -33,17 +33,22 @@ def execute_workflow_get_result(request):
         execute_path_with_eid = response['name'].split('/')
         e_id = execute_path_with_eid[-1]
         del response
-        time.sleep(1)
+        time.sleep(2)
 
         url_get = url + '/' + e_id
         response_get = requests.request("GET", url_get, data='', headers=headers).text
         response_get = json.loads(response_get)
         logging.info(f""" Get result: {response_get}
             """)
-        result = response_get['result']
-        output = json.loads(result)
 
-        return jsonify(output['body']), 200
+        return jsonify(response_get), 200
+
+        #result = response_get['result']
+        #return jsonify(result), 200
+
+
+        #output = json.loads(result)
+        #return jsonify(output['body']), 200
 
     except:
         return abort(405)

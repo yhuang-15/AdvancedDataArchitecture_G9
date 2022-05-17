@@ -10,3 +10,10 @@ gcloud auth application-default print-access-token
 	API Gateway output 
 	GCF input 
 	Testing
+
+gcloud functions deploy execute_workflow_get_result --runtime python38 --trigger-http --allow-unauthenticated
+
+
+# TODO:
+	Error handling in workflow
+	API gateway add QoS
