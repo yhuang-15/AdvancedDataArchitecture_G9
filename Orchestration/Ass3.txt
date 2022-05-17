@@ -16,4 +16,3 @@ gcloud functions deploy execute_workflow_get_result --runtime python38 --trigger
 
 # TODO:
 	Error handling in workflow
-	API gateway add QoS
