@@ -12,8 +12,8 @@ class WaitingList:
     @staticmethod
     def create(body):
         session = Session()
-        waitingList = WaitingListDAO(body['application_id'], datetime.strptime(body['registration_date'], '%Y-%m-%d'), 
-                                     (datetime.now() - datetime.strptime(body['waiting_time'], '%Y-%m-%d')), body['priority_status'],
+        waitingList = WaitingListDAO(body['application_id'], datetime.strptime(body['registration_date'], '%Y-%m-%d %H:%M:%S.%f'), 
+                                     (datetime.now() - datetime.strptime(body['waiting_time'], '%Y-%m-%d %H:%M:%S.%f')), body['priority_status'],
                                      StatusDAO(STATUS_WAITING, datetime.now()))
         session.add(waitingList)
         session.commit()
